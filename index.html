@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Turbo az</title>
+    <link href="./output.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+        integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+
+<body>
+    <header class="bg-slate-200 py-3">
+        <div
+            class="flex justify-between items-center container w-[80%] mx-auto max-headers:flex-col text-gray-700 font-medium capitalize">
+            <div class="flex justify-between gap-4 ">
+                <a href="#">tap.az</a>
+                <a href="#">bina.az</a>
+                <a href="#">boss.az</a>
+            </div>
+            <div class="flex justify-between gap-4">
+                <a href="#">destek: (012) 233-65-87</a>
+                <a href="#">yardim</a>
+                <a href="#" class="uppercase">en</a>
+                <a href="#"><i class="fa-solid fa-heart"></i> saved</a>
+                <a href="#"><i class="fa-solid fa-user"></i> login</a>
+            </div>
+        </div>
+    </header>
+    <nav class="bg-red-700 py-5">
+        <div
+            class="container w-[80%] mx-auto flex max-navres:flex-col justify-between gap-10 items-center text-white capitalize  ">
+            <div>
+                <a class="uppercase font-bold text-2xl" href="#">turbo.az</a>
+            </div>
+            <div
+                class="flex max-md:flex-col justify-between flex-row items-center max-md:gap-4 gap-10 text-lg capitalize">
+                <a href="#">bütün elanlar</a>
+                <a href="#">avtosalonlar</a>
+                <a href="#">moto</a>
+                <a href="#">ehtiyat hissələri ve aksessuarları</a>
+            </div>
+            <div class="flex items-center gap-5">
+                <div class="relative">
+                    <input id="search" oninput="showCars()" class=" rounded-sm w-[180px] outline-none text-black px-1 "
+                        type="search" placeholder="Axtarış">
+                    <i class="fa-solid fa-magnifying-glass absolute text-black top-[5px] right-[5px]"></i>
+                </div>
+                <a class="bg-green-500 w-[100px] px-2 py-1 rounded-sm text-[17px] " href="#">+ yeni elan</a>
+                <i class="fa-solid fa-basket-shopping text-3xl"></i>
+            </div>
+        </div>
+    </nav>
+
+    <div class="py-14 bg-gray-200">
+        <div id="cards" onclick="detailCars()"
+            class="flex  flex-wrap justify-between container w-[80%] mx-auto max-headers:flex-col gap-5 cursor-pointer">
+        </div>
+
+    </div>
+    <div id="carDetail"
+        class="hidden fixed top-0 left-0 w-full h-full bg-gray-900 bg-opacity-75 flex justify-center items-center">
+    </div>
+
+    <script>
+        const arr = [
+            { id: 1, marka: 'Mercedes', qiymet: '10 500', model: 'w202', mator: '2.0', il: '1998', reng: 'silver', img: 'https://turbo.azstatic.com/uploads/full/2022%2F02%2F07%2F16%2F20%2F36%2F05ae3ec7-b845-4458-8033-99eec8aec1a2%2F83217_ryHX2Q7AONB3-jC_sEJ3mQ.jpg' },
+            { id: 2, marka: 'Kia', qiymet: '21 000', model: 'Rio', mator: '1.4', il: '2014', reng: 'silver', img: 'https://turbo.azstatic.com/uploads/full/2021%2F09%2F10%2F11%2F40%2F18%2Fbe262b8b-13ff-40ee-9664-4c7c4ea93e4b%2F94552_bf7HpneCobaNn8ooAalBwg.jpg' },
+            { id: 3, marka: 'Hyundai', qiymet: '12 000', model: 'Tucson', mator: '2.0', il: '2014', reng: 'black', img: 'https://turbo.azstatic.com/uploads/f660x496/2020%2F02%2F08%2F12%2F31%2F23%2Fdfd4bcdd-5279-4807-85cb-58aa153c900f%2F44290_Il5UqH7nhzVTrAAfdt5BuQ.jpg' },
+            { id: 4, marka: 'LADA (VAZ)', qiymet: '35 000', model: '2107', mator: '1.6', il: '2010', reng: 'black', img: 'https://turbo.azstatic.com/uploads/full/2022%2F09%2F29%2F04%2F48%2F26%2Ff85c3fb0-4f77-4157-8b15-a3122bbaf36d%2F15612_S_xRbeuG6jQhZhkc_JM3wg.jpg' },
+            { id: 5, marka: 'BMW', qiymet: '28 700', model: 'M5 e39', mator: '4.4', il: '1998', reng: 'blue', img: 'https://turbo.azstatic.com/uploads/full/2020%2F08%2F15%2F17%2F42%2F55%2F5e61d0d8-ac41-42d4-8a34-33f9c563bba8%2F4747_ZOpsrcdSRl_mByG6tDsiqQ.jpg' },
+            { id: 6, marka: 'Mercedes', qiymet: '86 500', model: 'CLS', mator: '5.5', il: '2013', reng: 'gray', img: 'https://turbo.azstatic.com/uploads/full/2021%2F12%2F09%2F01%2F51%2F22%2F2e3d6e19-baa7-4625-89e0-d358238808ce%2F21872_z_Z4BhoRifgwGf0Fz_hvJw.jpg' },
+            { id: 7, marka: 'Toyota', qiymet: '54 000', model: 'Camry', mator: '3.0', il: '2021', reng: 'white', img: 'https://turbo.azstatic.com/uploads/full/2021%2F06%2F18%2F16%2F16%2F02%2Fd4a556f8-adc6-4ff8-897b-2079ea777987%2F24971_KEan9mcELSSmUAPbxG1KEw.jpg' },
+            { id: 8, marka: 'Porche', qiymet: '118 400', model: '911 Carrera', mator: '4.4', il: '2023', reng: 'cyan', img: 'https://turbo.azstatic.com/uploads/full/2020%2F08%2F13%2F13%2F32%2F55%2F012a26df-efae-4cf0-b763-a4c3de17ae23%2F46349_cqQK5HyMFGcJOEMh1pCm1A.jpg' },
+            { id: 9, marka: 'Dodge', qiymet: '38 500', model: 'Challenger', mator: '7.2', il: '2018', reng: 'black', img: 'https://turbo.azstatic.com/uploads/full/2021%2F04%2F09%2F10%2F02%2F28%2F9a6bf393-9f08-476b-abc0-d6278f1d6668%2F37456_34ZTVBn26COoCWhsqBx3vw.jpg' },
+            { id: 10, marka: 'Nissan', qiymet: '86 000', model: 'GTR R-35', mator: '3.0', il: '2014', reng: 'black', img: 'https://turbo.azstatic.com/uploads/full/2017%2F02%2F16%2F00%2F02%2F00%2F573%2F54000_4wUHTVdrb_-kLx6BJMuF8Q.jpg' },
+            { id: 11, marka: 'Audi', qiymet: '124 100', model: 'RS7', mator: '4.0', il: '2015', reng: 'dimgrey', img: 'https://turbo.azstatic.com/uploads/full/2021%2F05%2F29%2F15%2F33%2F07%2Fc9bec2ac-97eb-4e07-bc8a-509f1898dd7d%2F82001_MmzL0_nnwbSnJI6rtabq7Q.jpg' },
+            { id: 12, marka: 'Toyota', qiymet: '15 800', model: 'Corolla', mator: '1.6', il: '2016', reng: 'white', img: 'https://turbo.azstatic.com/uploads/full/2020%2F09%2F24%2F08%2F21%2F40%2Facdc9e7e-d243-46fd-b2ce-dc51a85c8343%2F66667_OxPaAqSg8MzGM7diar5WlQ.jpg' },
+            { id: 13, marka: 'Honda', qiymet: '18 500', model: 'Civic', mator: '1.8', il: '2017', reng: 'cyan', img: 'https://turbo.azstatic.com/uploads/full/2023%2F03%2F29%2F18%2F06%2F09%2F1dc0eed8-15d4-46f9-abf5-0b772be61d2d%2F98117_r2JD4f3tCYHUBNquO-VTdQ.jpg' },
+            { id: 14, marka: 'Volkswagen', qiymet: '23 200', model: 'Golf', mator: '2.0', il: '2019', reng: 'white', img: 'https://turbo.azstatic.com/uploads/full/2023%2F02%2F17%2F15%2F03%2F28%2F97566bce-3bcb-43ff-8c96-5274fdf59360%2F74622_ZZd9ojx9ZyTk5EOyx7D3wA.jpg' }
+        ]
+
+        const cards = document.getElementById('cards')
+        const search = document.getElementById('search')
+        const carDetail = document.getElementById('carDetail')
+
+
+        function showCars() {
+            cards.innerHTML = ''
+            arr
+                .filter(item => item.marka.toLowerCase().startsWith(search.value.toLowerCase()))
+                .map((item) => {
+                    cards.innerHTML += `
+            <div onclick="detailCars(${item.id})" class="card flex flex-col mb-8 bg-white rounded-lg overflow-hidden relative shadow-2xl">
+                <img class="w-[320px] h-[300px] object-cover" src="${item.img}" alt="car-img">
+                <i class="fa-regular fa-heart text-2xl bg-red-600 text-white rounded-full p-[5px] absolute top-[20px] right-[20px]"></i>
+                <h3 class="px-5 py-1 text-2xl font-bold">${item.qiymet} AZN</h3>
+                <h3 class="px-5 py-1 text-lg font-medium">${item.marka} ${item.model}</h3>
+                <h4 class="px-5 py-1 text-lg font-medium">${item.il} ${item.mator} ${item.reng}</h4>
+            </div>
+        `;
+                });
+        }
+        showCars()
+
+        function detailCars(id) {
+            cards.innerHTML = ''
+            const car = arr.find(item => item.id === id);
+            carDetail.innerHTML = `
+        <div class="card flex flex-col mb-8 bg-white rounded-lg overflow-hidden relative shadow-2xl">
+            <img class="w-[320px] h-[300px] object-cover" src="${car.img}" alt="car-img">
+            <i class="fa-regular fa-heart text-2xl bg-red-600 text-white rounded-full p-[5px] absolute top-[20px] right-[20px]"></i>
+            <h3 class="px-5 py-1 text-2xl font-bold">${car.qiymet} AZN</h3>
+            <h3 class="px-5 py-1 text-lg font-medium">${car.marka} ${car.model}</h3>
+            <h4 class="px-5 py-1 text-lg font-medium">${car.il} ${car.mator} ${car.reng}</h4>
+            <p class="px-5 py-1 text-md font-medium">Ətraflı məlumat:</p>
+            <p class="px-5 py-1">${car.qiymet} AZN qiymətindədir. ${car.marka} ${car.model} ilə əlaqədar ətraflı məlumat bu cürdür...</p>
+            <button onclick="closeDetail()" class="bg-red-500 text-white p-2 rounded">Geri qayıt</button>
+        </div>
+    `;
+        }
+
+        function closeDetail() {
+            const carDetail = document.getElementById('carDetail');
+            carDetail.classList.add('hidden');
+        }
+        closeDetail()
+
+        // function printCards() {
+        //     search.value = ''
+        //     cards.innerHTML = ''
+        //     arr.forEach((item) => cards.innerHTML += `<div class="max-w-xs rounded-md shadow-md dark:bg-gray-50 dark:text-gray-800">
+        //                     <div class="relative">
+        //                         <img class="w-[320px] h-[300px] object-cover" src="${item.img}" alt="" class="object-cover object-center w-full rounded-t-md h-72 dark:bg-gray-500">
+        //                         <i class="fa-regular fa-heart text-white text-xl bg-red-500 p-2 rounded-[50%] absolute top-1 right-1"></i>
+        //                         </div>
+        //                         <div class="flex flex-col justify-between p-6 space-y-8">
+        //                             <div class="space-y-2">
+        //                                 <h2 class="text-2xl font-bold tracking-wide">${item.qiymet} AZN</h2>
+        //                                 <p class="dark:text-gray-800 text-lg font-[15px]">${item.marka}, ${item.model}</p>
+        //                                 <p class="dark:text-gray-100 text-lg font-[15px]">${item.il}, ${item.mator}, ${item.reng}</p>
+        //                             </div>
+        //                         </div>
+        //                     </div>`)
+        // }
+        // printCards()
+
+    </script>
+</body>
+
+</html>
