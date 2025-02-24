@@ -33,7 +33,7 @@
         <div
             class="container w-[80%] mx-auto flex max-navres:flex-col justify-between gap-10 items-center text-white capitalize  ">
             <div>
-                <a class="uppercase font-bold text-2xl" href="#">turbo.az</a>
+                <a class="uppercase font-bold text-2xl cursor-pointer" onclick="showCars()">turbo.az</a>
             </div>
             <div
                 class="flex max-md:flex-col justify-between flex-row items-center max-md:gap-4 gap-10 text-lg capitalize">
@@ -43,11 +43,16 @@
                 <a href="#">ehtiyat hissələri ve aksessuarları</a>
             </div>
             <div class="flex items-center gap-5">
-                <div class="relative">
-                    <input id="search" oninput="showCars()" class=" rounded-sm w-[180px] outline-none text-black px-1 "
-                        type="search" placeholder="Axtarış">
+                <div class="relative flex flex-col gap-2">
+                    <input id="search" oninput="searchCars()"
+                        class=" rounded-sm w-[180px] outline-none text-black px-1 " placeholder="Axtarış">
                     <i class="fa-solid fa-magnifying-glass absolute text-black top-[5px] right-[5px]"></i>
+                    <select onchange="showCars()" class="text-black p-[3px] outline-none " name="" id="select">
+                        <option selected value="" hidden>select brend</option>
+                        <option value="">All brends</option>
+                    </select>
                 </div>
+
                 <a class="bg-green-500 w-[100px] px-2 py-1 rounded-sm text-[17px] " href="#">+ yeni elan</a>
                 <i class="fa-solid fa-basket-shopping text-3xl"></i>
             </div>
@@ -55,13 +60,18 @@
     </nav>
 
     <div class="py-14 bg-gray-200">
-        <div id="cards" onclick="detailCars()"
-            class="flex  flex-wrap justify-between container w-[80%] mx-auto max-headers:flex-col gap-5 cursor-pointer">
+        <div id="cards"
+            class="flex  flex-wrap justify-start container w-[80%] mx-auto max-headers:flex-col gap-x-28 cursor-pointer">
+        </div>
+        <div class="flex justify-center">
+            <button id="showBtn" onclick="showMore()" type="button"
+                class="px-6 py-3 text-md rounded-md bg-red-700 hover: dark:bg-gray-900 dark:text-gray-400">Load more
+                posts...</button>
         </div>
 
     </div>
-    <div id="carDetail"
-        class="hidden fixed top-0 left-0 w-full h-full bg-gray-900 bg-opacity-75 flex justify-center items-center">
+    <div id="carDetail" onclick="carDetails()"
+        class=" hidden fixed top-0 left-0 w-full h-full bg-gray-900 bg-opacity-75 ">
     </div>
 
     <script>
@@ -85,67 +95,104 @@
         const cards = document.getElementById('cards')
         const search = document.getElementById('search')
         const carDetail = document.getElementById('carDetail')
+        const select = document.getElementById('select')
+        const showBtn = document.getElementById('showBtn')
+
+
+        let count = 4
 
 
         function showCars() {
             cards.innerHTML = ''
             arr
-                .filter(item => item.marka.toLowerCase().startsWith(search.value.toLowerCase()))
-                .map((item) => {
+                .filter(item => select.value ? item.marka == select.value : item)
+                .slice(0, count)
+                .forEach((item) => {
                     cards.innerHTML += `
-            <div onclick="detailCars(${item.id})" class="card flex flex-col mb-8 bg-white rounded-lg overflow-hidden relative shadow-2xl">
-                <img class="w-[320px] h-[300px] object-cover" src="${item.img}" alt="car-img">
+                <div onclick="detailCars(${item.id})" class="card flex flex-col mb-3 bg-white rounded-lg overflow-hidden relative shadow-2xl">
+                    <img class="w-[290px] h-[250px] object-cover" src="${item.img}" alt="car-img">
+                    <i class="fa-regular fa-heart text-2xl bg-red-600 text-white rounded-full p-[5px] absolute top-[20px] right-[20px]"></i>
+                    <h3 class="px-5 py-1 text-2xl font-bold">${item.qiymet} AZN</h3>
+                    <h3 class="px-5 py-1 text-lg font-medium">${item.marka} ${item.model}</h3>
+                    <h4 class="px-5 py-1 text-lg font-medium">${item.il} ${item.mator} ${item.reng}</h4>
+                </div>
+        `
+                })
+
+        }
+        showCars()
+
+
+
+        const brends = []
+        function printBrends() {
+            arr.forEach(item => !brends.includes(item.marka) && brends.push(item.marka))
+            brends.forEach(item => select.innerHTML += `<option value="${item}">${item}</option>`)
+        }
+        printBrends()
+
+        function showMore() {
+            count += 4
+            showBtn.style.display = count >= arr.length ? 'none' : 'block'
+            showCars()
+        }
+
+
+        function searchCars() {
+            cards.innerHTML = ''
+            arr
+                .filter(item => item.marka.toLowerCase().startsWith(search.value.toLowerCase()))
+                .forEach((item) => {
+                    cards.innerHTML += `
+                <div onclick="detailCars(${item.id})" class="card flex flex-col mb-8 bg-white rounded-lg overflow-hidden relative shadow-2xl">
+                    <img class="w-[320px] h-[300px] object-cover" src="${item.img}" alt="car-img">
                 <i class="fa-regular fa-heart text-2xl bg-red-600 text-white rounded-full p-[5px] absolute top-[20px] right-[20px]"></i>
                 <h3 class="px-5 py-1 text-2xl font-bold">${item.qiymet} AZN</h3>
                 <h3 class="px-5 py-1 text-lg font-medium">${item.marka} ${item.model}</h3>
                 <h4 class="px-5 py-1 text-lg font-medium">${item.il} ${item.mator} ${item.reng}</h4>
-            </div>
-        `;
-                });
+                </div>
+                `
+                })
         }
-        showCars()
+
 
         function detailCars(id) {
-            cards.innerHTML = ''
             const car = arr.find(item => item.id === id);
-            carDetail.innerHTML = `
-        <div class="card flex flex-col mb-8 bg-white rounded-lg overflow-hidden relative shadow-2xl">
-            <img class="w-[320px] h-[300px] object-cover" src="${car.img}" alt="car-img">
-            <i class="fa-regular fa-heart text-2xl bg-red-600 text-white rounded-full p-[5px] absolute top-[20px] right-[20px]"></i>
-            <h3 class="px-5 py-1 text-2xl font-bold">${car.qiymet} AZN</h3>
-            <h3 class="px-5 py-1 text-lg font-medium">${car.marka} ${car.model}</h3>
-            <h4 class="px-5 py-1 text-lg font-medium">${car.il} ${car.mator} ${car.reng}</h4>
-            <p class="px-5 py-1 text-md font-medium">Ətraflı məlumat:</p>
-            <p class="px-5 py-1">${car.qiymet} AZN qiymətindədir. ${car.marka} ${car.model} ilə əlaqədar ətraflı məlumat bu cürdür...</p>
-            <button onclick="closeDetail()" class="bg-red-500 text-white p-2 rounded">Geri qayıt</button>
-        </div>
-    `;
+            search.value = ''
+            cards.innerHTML = ''
+            cards.innerHTML = `<section class="dark:bg-gray-800 dark:text-gray-100">
+                 <i onclick="showCars()" class="fa-solid fa-arrow-left text-4xl text-red-600"></i>
+                                    <div class="container max-w-6xl p-6 mx-auto space-y-6 sm:space-y-12 gap-4">
+                                          <h3 class="text-2xl font-semibold sm:text-3xl group-hover:underline group-focus:underline">${car.marka}, ${car.model}, ${car.il},${car.mator},${car.reng}</h3>
+                                        <a rel="noopener noreferrer" class="block max-w-sm gap-3 mx-auto sm:max-w-full group hover:no-underline focus:no-underline lg:grid lg:grid-cols-12 dark:bg-gray-900">
+                                            <img src="${car.img}" alt="" class="object-cover w-full h-64 rounded sm:h-96 lg:col-span-7 dark:bg-gray-500">
+                                            <div class="p-6 mb-3 border-2 border-blue-400 rounded-lg bg-[#effcff] space-y-2 lg:col-span-5 ">
+                                                <h3 class="font-bold text-2xl">Qiymət: ${car.qiymet} AZN</h3>
+                                                <div class="flex  items-center gap-2">
+                                                <img src="${car.img}" class="w-[70px] h-[70px] object-cover rounded-lg">
+                                                <div class="flex flex-col gap-1">
+                                                <h4 class="text-md font-bold">Autolux Azerbaijan - ${car.marka} </h4>
+                                                <p class="text-[#959ca6]">Rəsmi nümayəndə</p>
+                                                </div>
+                                                </div>
+                                                <div class="flex flex-col gap-3">
+                                                     <button class="bg-green-600 text-white text-center py-3 px-5 rounded-lg"><i class="fa-solid fa-phone"></i> Zəng et</button>
+                                                     <div>
+                                                     <h5>There's Only One.</h5>
+                                                     <p>${car.marka} avtomobillərinin Azərbaycanda rəsmi distribütoru Avtolüks Azərbaycan MMC-dir.20% ilkin ödəniş,10% illik bank faizi,5 illik
+                                                        </p>
+                                                        </div>
+                                                     <button class="bg-blue-600 text-white text-center py-3 px-5 rounded-lg"> Salona Keç</button>
+                                                    </div>
+                                               
+                                            </div>
+                                        </a>
+                                    </div>
+                                </section>`
         }
 
-        function closeDetail() {
-            const carDetail = document.getElementById('carDetail');
-            carDetail.classList.add('hidden');
-        }
-        closeDetail()
 
-        // function printCards() {
-        //     search.value = ''
-        //     cards.innerHTML = ''
-        //     arr.forEach((item) => cards.innerHTML += `<div class="max-w-xs rounded-md shadow-md dark:bg-gray-50 dark:text-gray-800">
-        //                     <div class="relative">
-        //                         <img class="w-[320px] h-[300px] object-cover" src="${item.img}" alt="" class="object-cover object-center w-full rounded-t-md h-72 dark:bg-gray-500">
-        //                         <i class="fa-regular fa-heart text-white text-xl bg-red-500 p-2 rounded-[50%] absolute top-1 right-1"></i>
-        //                         </div>
-        //                         <div class="flex flex-col justify-between p-6 space-y-8">
-        //                             <div class="space-y-2">
-        //                                 <h2 class="text-2xl font-bold tracking-wide">${item.qiymet} AZN</h2>
-        //                                 <p class="dark:text-gray-800 text-lg font-[15px]">${item.marka}, ${item.model}</p>
-        //                                 <p class="dark:text-gray-100 text-lg font-[15px]">${item.il}, ${item.mator}, ${item.reng}</p>
-        //                             </div>
-        //                         </div>
-        //                     </div>`)
-        // }
-        // printCards()
+
 
     </script>
 </body>
