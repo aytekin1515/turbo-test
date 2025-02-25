@@ -14,7 +14,7 @@
 <body>
     <header class="bg-slate-200 py-3">
         <div
-            class="flex justify-between items-center container w-[80%] mx-auto max-headers:flex-col text-gray-700 font-medium capitalize">
+            class="flex justify-between items-center container w-[80%] mx-auto sm:flex-col md:flex-col lg:flex-row text-gray-700 font-medium capitalize">
             <div class="flex justify-between gap-4 ">
                 <a href="#">tap.az</a>
                 <a href="#">bina.az</a>
@@ -31,7 +31,7 @@
     </header>
     <nav class="bg-red-700 py-5">
         <div
-            class="container w-[80%] mx-auto flex max-navres:flex-col justify-between gap-10 items-center text-white capitalize  ">
+            class="container w-[80%] mx-auto flex sm:flex-col md:flex-col lg:flex-row justify-between gap-10 items-center text-white capitalize  ">
             <div>
                 <a class="uppercase font-bold text-2xl cursor-pointer" onclick="showCars()">turbo.az</a>
             </div>
@@ -54,19 +54,44 @@
                 </div>
 
                 <a class="bg-green-500 w-[100px] px-2 py-1 rounded-sm text-[17px] " href="#">+ yeni elan</a>
-                <i class="fa-solid fa-basket-shopping text-3xl"></i>
+                <i onclick="handleSideBar(true)" class="fa-solid fa-basket-shopping text-3xl"></i>
             </div>
         </div>
     </nav>
 
-    <div class="py-14 bg-gray-200">
+    <div class="py-14 bg-gray-200 ">
         <div id="cards"
-            class="flex  flex-wrap justify-start container w-[80%] mx-auto max-headers:flex-col gap-x-28 cursor-pointer">
+            class="flex  flex-wrap justify-between container w-[80%]  mx-auto  gap-3 cursor-pointer md:justify-center sm:items-center sm:justify-center">
         </div>
         <div class="flex justify-center">
             <button id="showBtn" onclick="showMore()" type="button"
                 class="px-6 py-3 text-md rounded-md bg-red-700 hover: dark:bg-gray-900 dark:text-gray-400">Load more
                 posts...</button>
+        </div>
+
+        <div id="sidebar"
+            class="fixed top-0 right-0 translate-x-[100%] w-[35%] min-h-[100vh] transition duration-[.5s] flex flex-col max-w-3xl p-6 space-y-4 sm:p-10 text-white bg-red-700">
+            <div onclick="handleSideBar(false)"
+                class="absolute top-[20px] left-[20px] font-[900] cursor-pointer p-[5px]">╳</div>
+            <h2 class="text-xl font-semibold mt-7">Səbət</h2>
+            <ul id="basketList" class="flex flex-col divide-y dark:divide-gray-700">
+
+            </ul>
+            <div class="space-y-1 text-right">
+                <p>Total amount:
+                    <span id="totalCal" class="font-semibold"></span>
+                </p>
+            </div>
+            <div class="flex justify-end space-x-4">
+                <button onclick="handleSideBar(false)" type="button"
+                    class="px-6 py-2 border rounded-md dark:border-violet-400">Back
+                    <span class="sr-only sm:not-sr-only">to shop</span>
+                </button>
+                <button type="button"
+                    class="px-6 py-2 border rounded-md dark:bg-violet-400 dark:text-gray-900 dark:border-violet-400">
+                    <span class="sr-only sm:not-sr-only">Continue to</span>Checkout
+                </button>
+            </div>
         </div>
 
     </div>
@@ -97,8 +122,9 @@
         const carDetail = document.getElementById('carDetail')
         const select = document.getElementById('select')
         const showBtn = document.getElementById('showBtn')
-
-
+        const sidebar = document.getElementById('sidebar')
+        const basketList = document.getElementById('basketList')
+        const totalCal = document.getElementById('totalCal')
         let count = 4
 
 
@@ -109,12 +135,13 @@
                 .slice(0, count)
                 .forEach((item) => {
                     cards.innerHTML += `
-                <div onclick="detailCars(${item.id})" class="card flex flex-col mb-3 bg-white rounded-lg overflow-hidden relative shadow-2xl">
-                    <img class="w-[290px] h-[250px] object-cover" src="${item.img}" alt="car-img">
-                    <i class="fa-regular fa-heart text-2xl bg-red-600 text-white rounded-full p-[5px] absolute top-[20px] right-[20px]"></i>
+                <div  class="card flex flex-col mb-3 bg-white rounded-lg overflow-hidden relative shadow-2xl">
+                    <img onclick="detailCars(${item.id})" class="w-[290px] h-[250px] object-cover" src="${item.img}" alt="car-img">
+                    <i class="fa-regular fa-heart text-2xl bg-red-600 text-white rounded-full p-[5px] absolute top-[10px] right-[10px]"></i>
                     <h3 class="px-5 py-1 text-2xl font-bold">${item.qiymet} AZN</h3>
                     <h3 class="px-5 py-1 text-lg font-medium">${item.marka} ${item.model}</h3>
                     <h4 class="px-5 py-1 text-lg font-medium">${item.il} ${item.mator} ${item.reng}</h4>
+                    <button onclick="addBasket(${item.id})" class="bg-red-600 text-white text-center py-3 px-4 rounded-lg">Səbətə əlavə et</button>
                 </div>
         `
                 })
@@ -138,6 +165,52 @@
         }
 
 
+        const basketArr = []
+        function addBasket(id) {
+            const obj = arr.find(item => item.id === id)
+            basketArr.push(obj)
+            printBasket()
+        }
+
+        function printBasket() {
+            basketList.innerHTML = ''
+            basketArr.forEach(item => basketList.innerHTML += `<li class="flex flex-col py-6 sm:flex-row sm:justify-between">
+                                                                <div class="flex w-full space-x-2 sm:space-x-4">
+                                                                    <img class="flex-shrink-0 object-cover w-20 h-20 dark:border-transparent rounded outline-none sm:w-32 sm:h-32 dark:bg-gray-500" src="${item.img}" alt="Polaroid camera">
+                                                                    <div class="flex flex-col justify-between w-full pb-4">
+                                                                        <div class="flex justify-between w-full pb-2 space-x-2">
+                                                                            <div class="space-y-1">
+                                                                                <h3 class="text-lg font-semibold leadi sm:pr-8">${item.marka},${item.model}</h3>
+                                                                                <p class="text-sm dark:text-gray-400">${item.il} ${item.mator} ${item.reng}</p>
+                                                                            </div>
+                                                                            <div class="text-right">
+                                                                                <p class="text-lg font-semibold">${item.qiymet} AZN</p>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="flex text-sm divide-x">
+                                                                            <button type="button" class="flex items-center px-2 py-1 pl-0 space-x-1">
+                                                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="w-4 h-4 fill-current">
+                                                                                    <path d="M96,472a23.82,23.82,0,0,0,23.579,24H392.421A23.82,23.82,0,0,0,416,472V152H96Zm32-288H384V464H128Z"></path>
+                                                                                    <rect width="32" height="200" x="168" y="216"></rect>
+                                                                                    <rect width="32" height="200" x="240" y="216"></rect>
+                                                                                    <rect width="32" height="200" x="312" y="216"></rect>
+                                                                                    <path d="M328,88V40c0-13.458-9.488-24-21.6-24H205.6C193.488,16,184,26.542,184,40V88H64v32H448V88ZM216,48h80V88H216Z"></path>
+                                                                                </svg>
+                                                                                <span onclick="removeModel(${item.id})">Təmizlə</span>
+                                                                            </button>
+                                                                            <button type="button" class="flex items-center px-2 py-1 space-x-1">
+                                                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="w-4 h-4 fill-current">
+                                                                                    <path d="M453.122,79.012a128,128,0,0,0-181.087.068l-15.511,15.7L241.142,79.114l-.1-.1a128,128,0,0,0-181.02,0l-6.91,6.91a128,128,0,0,0,0,181.019L235.485,449.314l20.595,21.578.491-.492.533.533L276.4,450.574,460.032,266.94a128.147,128.147,0,0,0,0-181.019ZM437.4,244.313,256.571,425.146,75.738,244.313a96,96,0,0,1,0-135.764l6.911-6.91a96,96,0,0,1,135.713-.051l38.093,38.787,38.274-38.736a96,96,0,0,1,135.765,0l6.91,6.909A96.11,96.11,0,0,1,437.4,244.313Z"></path>
+                                                                                </svg>
+                                                                                <span>Favorilərə əlavə et</span>
+                                                                            </button>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </li>`
+            )
+        }
+
         function searchCars() {
             cards.innerHTML = ''
             arr
@@ -146,7 +219,7 @@
                     cards.innerHTML += `
                 <div onclick="detailCars(${item.id})" class="card flex flex-col mb-8 bg-white rounded-lg overflow-hidden relative shadow-2xl">
                     <img class="w-[320px] h-[300px] object-cover" src="${item.img}" alt="car-img">
-                <i class="fa-regular fa-heart text-2xl bg-red-600 text-white rounded-full p-[5px] absolute top-[20px] right-[20px]"></i>
+                <i class="fa-regular fa-heart text-2xl bg-red-600 text-white rounded-full p-[5px] absolute top-[10px] right-[10px]"></i>
                 <h3 class="px-5 py-1 text-2xl font-bold">${item.qiymet} AZN</h3>
                 <h3 class="px-5 py-1 text-lg font-medium">${item.marka} ${item.model}</h3>
                 <h4 class="px-5 py-1 text-lg font-medium">${item.il} ${item.mator} ${item.reng}</h4>
@@ -191,8 +264,19 @@
                                 </section>`
         }
 
+        function removeModel(id) {
+            const index = basketArr.findIndex(item => item.id === id);
+            if (index !== -1) {
+                basketArr.splice(index, 1);
+                printBasket();
+            }
+        }
+        removeModel()
 
 
+        function handleSideBar(status) {
+            sidebar.style.transform = status ? 'translateX(0)' : 'translateX(100%)'
+        }
 
     </script>
 </body>
