@@ -310,7 +310,7 @@
         }
         function calcBasket() {
             const totalPrice = basketArr.reduce((total, item) => total + (Number(item.qiymet.replace(/\s/g, "")) * item.count), 0);
-            totalCal.innerText = `Total: ${totalPrice.toLocaleString()} AZN`; // Update total display
+            totalCal.innerText = `Total: ${totalPrice.toLocaleString()} AZN`; 
         }
 
 
