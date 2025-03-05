@@ -33,44 +33,53 @@
     </header>
     <nav class="bg-red-700 py-5">
         <div
-            class="container w-[80%] mx-auto flex sm:flex-col md:flex-col lg:flex-row justify-between gap-10 items-center text-white capitalize  ">
-            <div>
+            class="container w-[80%] mx-auto flex flex-col sm:flex-col md:flex-row lg:flex-row justify-between gap-6 items-center text-white capitalize">
+            <div class="flex justify-between items-center w-full md:w-auto">
                 <a class="uppercase font-bold text-2xl cursor-pointer" onclick="showCars()">turbo.az</a>
-            </div>
-            <div
-                class="flex max-md:flex-col justify-between flex-row items-center max-md:gap-4 gap-10 text-lg capitalize">
-                <a href="#">bütün elanlar</a>
-                <a href="#">avtosalonlar</a>
-                <a href="#">moto</a>
-                <a href="#">ehtiyat hissələri ve aksessuarları</a>
-            </div>
-            <div class="flex items-center gap-5">
-                <div class="relative flex flex-col gap-2">
-                    <input id="search" oninput="searchCars()"
-                        class=" rounded-sm w-[180px] outline-none text-black px-1 " placeholder="Axtarış">
-                    <i class="fa-solid fa-magnifying-glass absolute text-black top-[5px] right-[5px]"></i>
+                <div class="md:hidden text-white text-3xl cursor-pointer" onclick="toggleMenu()">
+                    ☰
                 </div>
-                <a onclick="newElan()" class="bg-green-500 w-[100px] px-2 py-1 rounded-sm text-[15px] " href="#">+ yeni
+            </div>
+            <div id="burgerMenu" class="sm:hidden md:flex ">
+                <div class="sm:flex sm:gap-2  md:flex flex-col md:flex-row lg:gap-10 items-center  text-lg capitalize">
+                    <a href="#">bütün elanlar</a>
+                    <a href="#">avtosalonlar</a>
+                    <a href="#">moto</a>
+                    <a href="#">ehtiyat hissələri ve aksessuarları</a>
+                </div>
+            </div>
+            <div class="flex items-center gap-7">
+                <a onclick="newElan()" class="bg-green-500 w-[100px] px-2 py-1 rounded-sm text-[15px]" href="#">+ yeni
                     elan</a>
-                <i onclick="handleSideBar(true)" class="fa-solid fa-basket-shopping text-3xl"></i>
+                <i onclick="filterNav(true)" class="fas fa-filter text-2xl cursor-pointer"></i>
+                <i onclick="handleSideBar(true)" class="fa-solid fa-basket-shopping text-2xl cursor-pointer"></i>
             </div>
         </div>
     </nav>
-    <nav id="navB" class="bg-gray-400 py-5 hidden"></nav>
-    <nav id="navBar" class="bg-gray-400 py-5">
+
+
+    </nav>
+
+    <nav id="navB" class="bg-gray-400 py-5 hidden translate-[.5s]"></nav>
+    <nav id="navBar" class="bg-gray-400 "
+        style="max-height: 0; overflow: hidden; transition: max-height 0.3s ease, padding 0.3s ease;">
         <div
-            class="container w-[80%] mx-auto flex sm:flex-col md:flex-col lg:flex-row justify-between gap-10 items-center text-white capitalize  ">
-            <div class="flex items-center gap-5">
-                <div class="">
-                    <select onchange="showCars()" class="text-black w-[180px] p-[3px] outline-none " name=""
-                        id="select">
+            class="container w-[80%] mx-auto flex flex-col sm:flex-col md:flex-col lg:flex-row justify-between gap-6 items-center text-white capitalize">
+            <div class="w-full md:flex-col lg:w-[20%]">
+                <div class="relative">
+                    <input id="search" oninput="searchCars()" class="w-full p-2 rounded-md outline-none text-black"
+                        placeholder="Axtarış">
+                    <i class="fa-solid fa-magnifying-glass absolute right-2 top-3 text-gray-600"></i>
+                </div>
+            </div>
+            <div
+                class="w-full md:w-[100%] lg:w-[100%] flex flex-col sm:flex-col md:flex-col lg:flex-row gap-4 items-center">
+                <div class="flex flex-col sm:flex-col md:flex-col lg:flex-row gap-2 w-full">
+                    <select onchange="showCars()" class="w-full p-2 rounded-md outline-none text-black" id="select">
                         <option selected value="" hidden>Select Sorting</option>
                         <option value="">All Brends</option>
                     </select>
-                </div>
-                <div class="relative flex flex-col gap-2">
-                    <select onchange="sortCars()" class="text-black w-[180px] p-[3px] outline-none " name=""
-                        id="selectOne">
+                    <select onchange="sortCars()" class="w-full p-2 rounded-md outline-none text-black" id="selectOne">
                         <option selected value="" hidden>Select Brends</option>
                         <option value="">All Brends</option>
                         <option value="op2">A-Z-ye</option>
@@ -80,39 +89,32 @@
                         <option value="op6">Tarix Artan</option>
                         <option value="op7">Tarix Azalan</option>
                         <option value="op8">Motor Artan</option>
-                        <option value="op9">Motor azalan</option>
+                        <option value="op9">Motor Azalan</option>
                     </select>
                 </div>
-                <div class="flex gap-2 items-center">
-                    <div class="flex flex-col gap-1">
-                        <input id="minYear" class=" rounded-sm w-[250px] outline-none text-black px-1 "
-                            placeholder="Minimum year">
-                        <input id="maxYear" class=" rounded-sm w-[250px] outline-none text-black px-1 "
-                            placeholder="Maxmimum year">
+                <div class="flex flex-col sm:flex-col md:flex-col lg:flex-row gap-2 w-full lg:w-[100%]">
+                    <div class="flex flex-col sm:flex-col md:flex-col lg:flex-row gap-2 w-full">
+                        <input id="minYear" class="w-full p-2 rounded-md outline-none text-black" placeholder="Min İl">
+                        <input id="maxYear" class="w-full p-2 rounded-md outline-none text-black" placeholder="Max İl">
                     </div>
-                    <div class="flex flex-col gap-1">
-                        <input id="minPrice" class=" rounded-sm w-[250px] outline-none text-black px-1 "
-                            placeholder="Minimum price">
-                        <input id="maxPrice" class=" rounded-sm w-[250px] outline-none text-black px-1 "
-                            placeholder="Maxmimum price">
-                    </div>
-                    <div>
-                        <button onclick="filterBtn()" type="button"
-                            class="text-white text-lg w-[140px] bg-green-600 px-3 py-2">Filter</button>
-                    </div>
-                    <div>
-                        <button onclick="resetFilter()" type="button"
-                            class="text-white text-lg w-[140px] bg-red-600 px-3 py-2">Reset</button>
+                    <div class="flex flex-col sm:flex-col md:flex-col lg:flex-row gap-2 w-full">
+                        <input id="minPrice" class="w-full p-2 rounded-md outline-none text-black"
+                            placeholder="Min Qiymət">
+                        <input id="maxPrice" class="w-full p-2 rounded-md outline-none text-black"
+                            placeholder="Max Qiymət">
                     </div>
                 </div>
+                <div class="flex flex-col sm:flex-col md:flex-col lg:flex-row gap-2 w-full lg:w-[20%]">
+                    <button onclick="filterBtn()" type="button"
+                        class="w-full bg-green-600 text-white p-2 rounded-md hover:bg-green-700 transition-colors">Filter</button>
+                    <button onclick="resetFilter()" type="button"
+                        class="w-full bg-red-600 text-white p-2 rounded-md hover:bg-red-700 transition-colors">Reset</button>
+                </div>
             </div>
-
         </div>
     </nav>
-
-    <div style="--swiper-navigation-color: #fff; --swiper-pagination-color: #fff" class="swiper mySwiper">
-
-        <div class="swiper-wrapper">
+    <div  style="--swiper-navigation-color: #fff; --swiper-pagination-color: #fff" class="swiper mySwiper ">
+        <div id="slider" class="swiper-wrapper">
             <div class="swiper-slide">
             </div>
         </div>
@@ -124,7 +126,7 @@
 
     <div class="py-14 bg-gray-200 ">
         <div id="cards"
-            class="flex  flex-wrap justify-between container w-[80%]  mx-auto  gap-3 cursor-pointer md:justify-center sm:items-center sm:justify-center">
+            class="flex  flex-wrap justify-between container mx-auto w-[80%] my-8  gap-3 cursor-pointer md:justify-center  sm:justify-center">
         </div>
         <div class="flex justify-center">
             <button id="showBtn" onclick="showMore()" type="button"
@@ -133,35 +135,384 @@
         </div>
 
         <div id="sidebar"
-            class="overflow-y-scroll max-h-[100vh] fixed top-0 right-0 translate-x-[100%] w-[35%] min-h-[100vh] transition duration-[.5s] flex flex-col max-w-3xl p-6 space-y-4 sm:p-10 text-white bg-red-700 ">
+            class="overflow-y-scroll max-h-[100vh] fixed top-0 right-0 sm:w-[100%] md:w-[60%] translate-x-[100%] lg:w-[35%] min-h-[100vh] transition duration-[.5s] flex flex-col max-w-3xl p-6 space-y-4 sm:p-10 text-white bg-red-700 ">
             <div onclick="handleSideBar(false)"
-                class="absolute top-[20px] left-[20px] font-[900] cursor-pointer p-[5px]">╳</div>
+                class="absolute top-[20px] left-[20px] font-[900]  cursor-pointer p-[5px]">╳</div>
             <h2 class="text-xl font-semibold mt-7">Səbət</h2>
 
             <ul id="basketList" class="flex flex-col divide-y dark:divide-gray-700">
 
             </ul>
             <div class="space-y-1 text-right">
-                <p>Total amount:
-                    <span id="totalCal" class="font-semibold "></span>
+                <p>Ümumi qiymət:
+                    <span id="totalCal" class="font-semibold ">0</span>
                 </p>
-                <p class="text-sm dark:text-gray-400">Not including taxes and shipping costs</p>
             </div>
         </div>
 
     </div>
-    <div id="carDetail" onclick="carDetails()"
-        class=" hidden fixed top-0 left-0 w-full h-full bg-gray-900 bg-opacity-75 ">
+
+
+
+
+    <script src="data.js"></script>
+
+    <script>
+        const cards = document.getElementById('cards')
+        const search = document.getElementById('search')
+        const select = document.getElementById('select')
+        const showBtn = document.getElementById('showBtn')
+        const sidebar = document.getElementById('sidebar')
+        const basketList = document.getElementById('basketList')
+        const totalCal = document.getElementById('totalCal')
+        const selectOne = document.getElementById('selectOne')
+        const minYear = document.getElementById('minYear')
+        const maxYear = document.getElementById('maxYear')
+        const minPrice = document.getElementById('minPrice')
+        const maxPrice = document.getElementById('maxPrice')
+        const navB = document.getElementById('navB')
+        const slider = document.querySelector('.my-s')
+        const burgerMenu = document.getElementById('burgerMenu')
+        let count = 4
+
+
+        function showCars() {
+            cards.innerHTML = ''
+            arr
+                .filter(item => select.value ? item.marka == select.value : item)
+                .slice(0, count)
+                .forEach((item) => {
+                    cards.innerHTML += `
+        <div  class="card flex flex-col mb-3 bg-white rounded-lg overflow-hidden relative shadow-2xl">
+            <img onclick="detailCars(${item.id})" class="w-[290px] h-[250px] object-cover" src="${item.img}" alt="car-img">
+            <i class="fa-regular fa-heart text-2xl bg-red-600 text-white rounded-full p-[5px] absolute top-[10px] right-[10px]"></i>
+            <h3 class="px-5 py-1 text-2xl font-bold">${item.qiymet} AZN</h3>
+            <h3 class="px-5 py-1 text-lg font-medium">${item.marka} ${item.model}</h3>
+            <h4 class="px-5 py-1 text-lg font-medium">${item.il} ${item.mator} ${item.reng}</h4>
+            <button onclick="addBasket(${item.id})" class="bg-red-600 text-white text-center py-3 px-4 rounded-lg">Səbətə əlavə et</button>
+        </div>
+`
+                })
+
+        }
+        showCars()
+
+        function initSwiper() {
+            const swiperWrapper = document.querySelector('.swiper-wrapper');
+            swiperWrapper.innerHTML = ''
+
+            arr.sort((a, b) => parseFloat(b.qiymet.replace(/\s+/g, '')) - parseFloat(a.qiymet.replace(/\s+/g, '')))
+                .forEach(item => {
+                    const slide = document.createElement('div');
+                    slide.classList.add('swiper-slide');
+                    slide.innerHTML = `
+                            <div class="parallax-bg" style="
+                            background-image: url(${item.img});
+                            " data-swiper-parallax="-23%"></div>
+                                <div class="title" data-swiper-parallax="-300">${item.marka} ${item.model}</div>
+                                <div class="subtitle" data-swiper-parallax="-200">${item.qiymet} AZN</div>
+                                <div class="text" data-swiper-parallax="-100">
+                                    <p>${item.il} il, ${item.mator} L, ${item.reng}</p>
+                                </div>
+`;
+                    swiperWrapper.appendChild(slide);
+                });
+        }
+
+        initSwiper();
+
+        function updateSwiper() {
+            initSwiper();
+        }
+
+        function detailCars(id) {
+            window.location.href = `http://127.0.0.1:5501/details.html?id=${id}`
+        }
+
+        let basketArr = []
+
+        function addBasket(id) {
+            const obj = arr.find(item => item.id === id);
+            const element = basketArr.find(item => item.id == id)
+            if (!element) {
+                basketArr.push({ ...obj, count: 1 })
+            } else element.count += 1
+            printBasket()
+        }
+
+        function handleCount(x, id) {
+            const element = basketArr.find(item => item.id == id)
+            if (element.count + x >= 1) element.count += x
+            else {
+                removeModel(id)
+            }
+            printBasket()
+        }
+
+        function removeModel(id) {
+            basketArr = basketArr.filter(item => item.id !== id);
+            printBasket()
+        }
+
+        function resetFilter() {
+            selectOne.value = ''
+            select.value = ''
+            minYear.value = ''
+            maxYear.value = ''
+            minPrice.value = ''
+            maxPrice.value = ''
+            showCars()
+        }
+
+        function printBasket() {
+            const total = basketArr.reduce((sum, item) => { return sum + parseFloat(item.qiymet.replace(/\s+/g, '')) * item.count }, 0)
+            totalCal.innerHTML = total
+            basketList.innerHTML = '';
+            basketArr.forEach(item =>
+                basketList.innerHTML += `<li class="flex flex-col py-6 sm:flex-row sm:justify-between">
+            <div class="flex w-full space-x-2 sm:space-x-4">
+        <img class="flex-shrink-0 object-cover w-20 h-20 dark:border-transparent rounded outline-none sm:w-32 sm:h-32 dark:bg-gray-500" src="${item.img}" alt="Polaroid camera">
+        <div class="flex flex-col justify-between w-full pb-4">
+            <div class="flex justify-between w-full pb-2 space-x-2">
+                <div class="space-y-1">
+                    <h3 class="text-lg font-semibold leadi sm:pr-8">${item.marka}, ${item.model}</h3>
+                    <p class="text-sm dark:text-gray-400">${item.il} ${item.mator} ${item.reng}</p>
+                    <div class="flex items-center mt-2">
+                        <button onclick="handleCount(-1,${item.id})" class="bg-white text-red-800 px-2 font-bold  rounded-[50%]">-</button>
+                        <span class="mx-2 font-bold">${item.count}</span>
+                        <button onclick="handleCount(1,${item.id})" class="bg-white text-red-800 px-2 font-bold  rounded-[50%]">+</button>
+                        </div>
+                        </div>
+                        <div class="text-right"
+                        <p class="text-sm text-gray-400">${parseFloat(item.qiymet.replace(/\s+/g, '')) * item.count} AZN</p>
+                        </div>
+            </div>
+            <div class="flex text-sm divide-x">
+                <button onclick="removeModel(${item.id})" type="button" class="flex items-center px-2 py-1 pl-0 space-x-1">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="w-4 h-4 fill-current">
+                        <path d="M96,472a23.82,23.82,0,0,0,23.579,24H392.421A23.82,23.82,0,0,0,416,472V152H96Zm32-288H384V464H128Z"></path>
+                        <rect width="32" height="200" x="168" y="216"></rect>
+                        <rect width="32" height="200" x="240" y="216"></rect>
+                        <rect width="32" height="200" x="312" y="216"></rect>
+                        <path d="M328,88V40c0-13.458-9.488-24-21.6-24H205.6C193.488,16,184,26.542,184,40V88H64v32H448V88ZM216,48h80V88H216Z"></path>
+                        </svg>
+                        <span >Təmizlə</span>
+                        </button>
+                        <button type="button" class="flex items-center px-2 py-1 space-x-1">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="w-4 h-4 fill-current">
+                        <path d="M453.122,79.012a128,128,0,0,0-181.087.068l-15.511,15.7L241.142,79.114l-.1-.1a128,128,0,0,0-181.02,0l-6.91,6.91a128,128,0,0,0,0,181.019L235.485,449.314l20.595,21.578.491-.492.533.533L276.4,450.574,460.032,266.94a128.147,128.147,0,0,0,0-181.019ZM437.4,244.313,256.571,425.146,75.738,244.313a96,96,0,0,1,0-135.764l6.911-6.91a96,96,0,0,1,135.713-.051l38.093,38.787,38.274-38.736a96,96,0,0,1,135.765,0l6.91,6.909A96.11,96.11,0,0,1,437.4,244.313Z"></path>
+                        </svg>
+                    <span>Favorilərə əlavə et</span>
+                </button>
+                
+                </div>
+        </div>
     </div>
+    </li>
     
-    
-    
-    <script src="app.js"></script>
-    
+    `
+            );
+        }
+
+        function searchCars() {
+            cards.innerHTML = ''
+            arr
+                .filter(item => item.marka.toLowerCase().startsWith(search.value.toLowerCase()))
+                .forEach((item) => {
+                    cards.innerHTML += `
+            <div onclick="detailCars(${item.id})" class="card flex flex-col mb-8 bg-white rounded-lg overflow-hidden relative shadow-2xl">
+            <img class="w-[320px] h-[300px] object-cover" src="${item.img}" alt="car-img">
+        <i class="fa-regular fa-heart text-2xl bg-red-600 text-white rounded-full p-[5px] absolute top-[10px] right-[10px]"></i>
+        <h3 class="px-5 py-1 text-2xl font-bold">${item.qiymet} AZN</h3>
+        <h3 class="px-5 py-1 text-lg font-medium">${item.marka} ${item.model}</h3>
+        <h4 class="px-5 py-1 text-lg font-medium">${item.il} ${item.mator} ${item.reng}</h4>
+        </div>
+        `
+                })
+            showBtn.style.display = "none"
+        }
+
+        function sortCars() {
+            const selectedValue = selectOne.value;
+
+            if (selectedValue === "op2") {
+                arr.sort((a, b) => a.marka.localeCompare(b.marka));
+            } else if (selectedValue === "op3") {
+                arr.sort((a, b) => b.marka.localeCompare(a.marka));
+            } else if (selectedValue === "op4") {
+                arr.sort((a, b) => parseFloat(a.qiymet.replace(/\s+/g, '')) - parseFloat(b.qiymet.replace(/\s+/g, '')));
+            } else if (selectedValue === "op5") {
+                arr.sort((a, b) => parseFloat(b.qiymet.replace(/\s+/g, '')) - parseFloat(a.qiymet.replace(/\s+/g, '')));
+            } else if (selectedValue === "op6") {
+                arr.sort((a, b) => a.id - b.id);
+            } else if (selectedValue === "op7") {
+                arr.sort((a, b) => b.id - a.id);
+            } else if (selectedValue === "op8") {
+                arr.sort((a, b) => parseFloat(a.mator) - parseFloat(b.mator));
+            } else if (selectedValue === "op9") {
+                arr.sort((a, b) => parseFloat(b.mator) - parseFloat(a.mator));
+            }
+
+            showCars();
+        }
+
+        function filterBtn() {
+            const minYearValue = minYear.value ? Number(minYear.value) : 0;
+            const maxYearValue = maxYear.value ? Number(maxYear.value) : Infinity;
+            const minPriceValue = minPrice.value ? Number(minPrice.value) : 0;
+            const maxPriceValue = maxPrice.value ? Number(maxPrice.value) : Infinity;
+
+            if (isNaN(minYearValue) || isNaN(maxYearValue) || isNaN(minPriceValue) || isNaN(maxPriceValue)) {
+                alert("Düzgün dəyərlər daxil edin!");
+                return;
+            }
+
+            cards.innerHTML = '';
+            carDetail.innerHTML = '';
+            slider.style.display="none"
+            arr
+                .filter(item => {
+                    const carYear = Number(item.il);
+                    const carPrice = parseFloat(item.qiymet.replace(/\s+/g, ''));
+
+                    const brendCondition = select.value ? item.marka === select.value : true;
+                    const yearCondition = carYear >= minYearValue && carYear <= maxYearValue;
+                    const priceCondition = carPrice >= minPriceValue && carPrice <= maxPriceValue;
+
+                    return brendCondition && yearCondition && priceCondition;
+                })
+                .forEach((item) => {
+                    cards.innerHTML += `
+        <div class="card flex flex-col mb-3 bg-white rounded-lg overflow-hidden relative shadow-2xl">
+            <img onclick="detailCars(${item.id})" class="w-[290px] h-[250px] object-cover" src="${item.img}" alt="car-img">
+            <i class="fa-regular fa-heart text-2xl bg-red-600 text-white rounded-full p-[5px] absolute top-[20px] right-[20px]"></i>
+            <h3 class="px-5 py-1 text-2xl font-bold">${item.qiymet} AZN</h3>
+            <h3 onclick="detailCars(${item.id})" class="px-5 py-1 text-lg font-medium">${item.marka} ${item.model}</h3>
+            <h4 class="px-5 py-1 text-lg font-medium">${item.il} ${item.mator} ${item.reng}</h4>
+            <button onclick="addBasket(${item.id})" class="bg-red-600 text-white text-center py-3 px-4 rounded-lg">Səbətə əlavə et</button>
+        </div>
+    `;
+                });
+        }
+
+        function newElan() {
+            cards.innerHTML = ""
+            navBar.style.display = "none"
+            navB.style.display = "block"
+            showBtn.style.display = "none"
+            navB.innerHTML = `<div class="container w-[75%] mx-auto flex flex-col sm:flex-row items-center gap-4">
+                                        <div class="w-full gap-5 flex flex-col md:flex-row lg:flex-row">
+                                            <div class="flex flex-col gap-2">
+                                                <input id="marka" type="text" class="p-1 outline-none rounded-md w-full lg:w-[250px]" placeholder="Marka">
+                                                <input id="model" type="text" class="p-1 outline-none rounded-md w-full lg:w-[250px]" placeholder="Model">
+                                            </div>
+                                            <div class="flex flex-col gap-2">
+                                                <input id="qiymet" type="text" class="p-1 outline-none rounded-md w-full lg:w-[250px]" placeholder="Qiymət">
+                                                <input id="mator" type="text" class="p-1 outline-none rounded-md w-full lg:w-[250px]" placeholder="Mator">
+                                            </div>
+                                            <div class="flex flex-col gap-2">
+                                                <input id="il" type="text" class="p-1 outline-none rounded-md w-full lg:w-[250px]" placeholder="Il">
+                                                <input id="reng" type="text" class="p-1 outline-none rounded-md w-full lg:w-[250px]" placeholder="Rəng">
+                                            </div>
+                                            <div class="flex flex-col gap-2">
+                                                <input id="image" type="text" class="p-1 outline-none rounded-md w-full lg:w-[250px]" placeholder="Img">
+                                                <button onclick="addCars()" type="button" class="bg-red-600 py-1 rounded-md text-white w-full lg:w-[250px]">Add</button>
+                                            </div>
+                                            <div class="flex items-center justify-center">
+                                                <button type="button" onclick="hiddenBar()" class="bg-black text-white p-2 rounded-md">Gizlət</button>
+                                            </div>
+                                     </div>
+                            </div>
+        
+    `
+        }
+
+        function addCars() {
+            const marka = document.getElementById('marka')
+            const model = document.getElementById('model')
+            const qiymet = document.getElementById('qiymet')
+            const mator = document.getElementById('mator')
+            const il = document.getElementById('il')
+            const reng = document.getElementById('reng')
+            const image = document.getElementById('image')
+            showBtn.style.display = "block"
+
+            if (marka.value && model.value && qiymet.value && mator.value && il.value && reng.value && image.value) {
+                const newCar = {
+                    id: arr.length + 1,
+                    marka: marka.value,
+                    model: model.value,
+                    qiymet: qiymet.value,
+                    mator: mator.value,
+                    il: il.value,
+                    reng: reng.value,
+                    img: image.value,
+
+                }
+                arr.push(newCar)
+                showCars()
+                marka.value = ""
+                model.value = ""
+                qiymet.value = ""
+                mator.value = ""
+                il.value = ""
+                reng.value = ""
+                image.value = ""
+                navBar.style.display = "none"
+                navB.style.display = "none"
+            } else {
+                alert("Zəhmət olmasa bütün məlumatları daxil edin!")
+            }
+        }
+
+        function hiddenBar() {
+            navB.style.display = "none"
+            navBar.style.display = "block"
+            showCars()
+            showBtn.style.display = "block"
+        }
+
+        const brends = []
+        function printBrends() {
+            arr.forEach(item => !brends.includes(item.marka) && brends.push(item.marka))
+            brends.forEach(item => select.innerHTML += `<option value="${item}">${item}</option>`)
+        }
+        printBrends()
+
+        function showMore() {
+            count += 4
+            showBtn.style.display = count >= arr.length ? 'none' : 'block'
+            showCars()
+        }
+
+        function handleSideBar(status) {
+            sidebar.style.transform = status ? 'translateX(0)' : 'translateX(100%)'
+        }
+
+        function filterNav() {
+            const navBar = document.getElementById("navBar");
+            if (navBar.style.maxHeight === "0px" || navBar.style.maxHeight === "") {
+                navBar.style.maxHeight = "500px"
+                navBar.style.padding = "1rem 0"
+            } else {
+                navBar.style.maxHeight = "0px"
+                navBar.style.padding = "0"
+            }
+        }
+
+        function toggleMenu() {
+            if (burgerMenu.style.display == "none") {
+                burgerMenu.style.display = "block"
+            } else {
+                burgerMenu.style.display = "none"
+            }
+        }
+    </script>
+
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     <script type="module">
         import Swiper from 'https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.mjs'
-        
+
         var swiper = new Swiper(".mySwiper", {
             speed: 600,
             parallax: true,
@@ -181,7 +532,7 @@
                 prevEl: ".swiper-button-prev",
             },
         });
-        </script>
+    </script>
 </body>
 
 </html>
