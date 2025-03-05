@@ -28,7 +28,6 @@
 
         carDetail.innerHTML = `<section class="dark:bg-gray-800 dark:text-gray-100 flex items-center justify-center min-h-[100vh] py-6">
     <div class="container max-w-6xl p-4 sm:p-6 mx-auto space-y-6 sm:space-y-12">
-        <!-- Geri dönmək üçün link və başlıq -->
         <div class="flex items-center gap-2">
             <a href="http://127.0.0.1:5501/index.html">
                 <i class="fas fa-angle-double-left text-3xl sm:text-4xl text-red-600"></i>
@@ -37,18 +36,10 @@
                 ${obj.marka}, ${obj.model}, ${obj.il}, ${obj.mator}, ${obj.reng}
             </h3>
         </div>
-
-        <!-- Əsas məlumatlar -->
         <a rel="noopener noreferrer" class="block max-w-sm gap-3 mx-auto sm:max-w-full group hover:no-underline focus:no-underline lg:grid lg:grid-cols-12 dark:bg-gray-900">
-            <!-- Şəkil -->
             <img src="${obj.img}" alt="" class="object-cover w-full h-48 sm:h-64 md:h-80 lg:h-96 rounded lg:col-span-7 dark:bg-gray-500">
-
-            <!-- Məlumatlar -->
             <div class="p-4 sm:p-6 mb-3 border-2 border-blue-400 rounded-lg bg-[#effcff] space-y-2 lg:col-span-5">
-                <!-- Qiymət -->
                 <h3 class="font-bold text-xl sm:text-2xl">Qiymət: ${obj.qiymet} AZN</h3>
-
-                <!-- Şirkət məlumatları -->
                 <div class="flex items-center gap-2">
                     <img src="${obj.img}" class="w-12 h-12 sm:w-16 sm:h-16 object-cover rounded-lg">
                     <div class="flex flex-col gap-1">
@@ -56,20 +47,16 @@
                         <p class="text-[#959ca6] text-xs sm:text-sm">Rəsmi nümayəndə</p>
                     </div>
                 </div>
-
-                <!-- Əlavə məlumatlar və düymələr -->
                 <div class="flex flex-col gap-3">
                     <button class="bg-green-600 text-white text-center py-2 sm:py-3 px-4 sm:px-5 rounded-lg">
                         <i class="fa-solid fa-phone"></i> Zəng et
                     </button>
-
                     <div>
                         <h5 class="text-lg sm:text-xl font-semibold">There's Only One.</h5>
                         <p class="text-sm sm:text-md text-gray-600">
                             ${obj.marka} avtomobillərinin Azərbaycanda rəsmi distribütoru Avtolüks Azərbaycan MMC-dir. 20% ilkin ödəniş, 10% illik bank faizi, 5 illik.
                         </p>
                     </div>
-
                     <button class="bg-blue-600 text-white text-center py-2 sm:py-3 px-4 sm:px-5 rounded-lg">
                         Salona Keç
                     </button>
