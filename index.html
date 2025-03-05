@@ -22,7 +22,7 @@
                 <a href="#">bina.az</a>
                 <a href="#">boss.az</a>
             </div>
-            <div class="flex justify-between gap-4">
+            <div class="flex justify-between  sm:gap-2 lg:gap-4">
                 <a href="#">destek: (012) 233-65-87</a>
                 <a href="#">yardim</a>
                 <a href="#" class="uppercase">en</a>
@@ -57,8 +57,6 @@
         </div>
     </nav>
 
-
-    </nav>
 
     <nav id="navB" class="bg-gray-400 py-5 hidden translate-[.5s]"></nav>
     <nav id="navBar" class="bg-gray-400 "
@@ -113,7 +111,7 @@
             </div>
         </div>
     </nav>
-    <div  style="--swiper-navigation-color: #fff; --swiper-pagination-color: #fff" class="swiper mySwiper ">
+    <div style="--swiper-navigation-color: #fff; --swiper-pagination-color: #fff" class="swiper mySwiper ">
         <div id="slider" class="swiper-wrapper">
             <div class="swiper-slide">
             </div>
@@ -369,7 +367,7 @@
 
             cards.innerHTML = '';
             carDetail.innerHTML = '';
-            slider.style.display="none"
+            slider.style.display = "none"
             arr
                 .filter(item => {
                     const carYear = Number(item.il);
