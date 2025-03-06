@@ -18,15 +18,16 @@
         <div
             class="flex justify-between items-center container w-[80%] mx-auto sm:flex-col md:flex-col lg:flex-row text-gray-700 font-medium capitalize">
             <div class="flex justify-between gap-4 ">
-                <a onclick="showCars()" href="#">tap.az</a>
-                <a href="#">bina.az</a>
-                <a href="#">boss.az</a>
+                <a href="https://tap.az/">tap.az</a>
+                <a href="https://bina.az/">bina.az</a>
+                <a
+                    href="https://boss.az/?utm_source=turboaz&utm_medium=desktop-nav&utm_campaign=only-logo#_gl=1*2mqt1s*_ga*MTcwOTcyMjI5MS4xNzQwMjMyNjUz*_ga_68B6PJZXYD*MTc0MTIwNjgyNy44LjEuMTc0MTIwOTAzMy40Ny4wLjA.">boss.az</a>
             </div>
             <div class="flex justify-between  sm:gap-2 lg:gap-4">
-                <a href="#">destek: (012) 233-65-87</a>
+                <a href="tel:+(012) 233-65-87">destek: (012) 233-65-87</a>
                 <a href="#">yardim</a>
                 <a href="#" class="uppercase">en</a>
-                <a href="#"><i class="fa-solid fa-heart"></i> saved</a>
+                <a href="./favbasket.html"><i class="fa-solid fa-heart"></i> saved</a>
                 <a href="#"><i class="fa-solid fa-user"></i> login</a>
             </div>
         </div>
@@ -54,8 +55,10 @@
                     href="#">
                     + yeni elan
                 </a>
-                <i onclick="filterNav(true)" class="fas fa-filter text-2xl cursor-pointer hover:scale-105 active:scale-95 transition-transform duration-200 ease-in-out"></i>
-                <i onclick="handleSideBar(true)" class="fa-solid fa-basket-shopping text-2xl cursor-pointer hover:scale-105 active:scale-95 transition-transform duration-200 ease-in-out"></i>
+                <i onclick="filterNav(true)"
+                    class="fas fa-filter text-2xl cursor-pointer hover:scale-105 active:scale-95 transition-transform duration-200 ease-in-out"></i>
+                <i onclick="handleSideBar(true)"
+                    class="fa-solid fa-basket-shopping text-2xl cursor-pointer hover:scale-105 active:scale-95 transition-transform duration-200 ease-in-out"></i>
             </div>
         </div>
     </nav>
@@ -114,8 +117,9 @@
             </div>
         </div>
     </nav>
+
     <div style="--swiper-navigation-color: #fff; --swiper-pagination-color: #fff" class="swiper mySwiper ">
-        <div id="slider" class="swiper-wrapper">
+        <div class="swiper-wrapper">
             <div class="swiper-slide">
             </div>
         </div>
@@ -123,7 +127,6 @@
         <div class="swiper-button-prev"></div>
         <div class="swiper-pagination"></div>
     </div>
-
 
     <div class="py-14 bg-gray-200 ">
         <div id="cards"
@@ -140,9 +143,7 @@
             <div onclick="handleSideBar(false)"
                 class="absolute top-[20px] left-[20px] font-[900]  cursor-pointer p-[5px]">╳</div>
             <h2 class="text-xl font-semibold mt-7">Səbət</h2>
-
             <ul id="basketList" class="flex flex-col divide-y dark:divide-gray-700">
-
             </ul>
             <div class="space-y-1 text-right">
                 <p>Ümumi qiymət:
@@ -150,11 +151,7 @@
                 </p>
             </div>
         </div>
-
     </div>
-
-
-
 
     <script src="data.js"></script>
 
@@ -172,7 +169,6 @@
         const minPrice = document.getElementById('minPrice')
         const maxPrice = document.getElementById('maxPrice')
         const navB = document.getElementById('navB')
-        const slider = document.querySelector('.my-s')
         const burgerMenu = document.getElementById('burgerMenu')
         let count = 4
 
@@ -186,7 +182,7 @@
                     cards.innerHTML += `
         <div  class="card flex flex-col mb-3 bg-white rounded-lg overflow-hidden relative shadow-2xl">
             <img onclick="detailCars(${item.id})" class="w-[290px] h-[250px] object-cover" src="${item.img}" alt="car-img">
-            <i class="fa-regular fa-heart text-2xl bg-red-600 text-white rounded-full p-[5px] absolute top-[10px] right-[10px]"></i>
+            <i onclick="favCar(${item.id})" class="fa-solid fa-heart text-2xl text-white absolute top-[10px] right-[10px] hover:text-red-600 "></i>
             <h3 class="px-5 py-1 text-2xl font-bold">${item.qiymet} AZN</h3>
             <h3 class="px-5 py-1 text-lg font-medium">${item.marka} ${item.model}</h3>
             <h4 class="px-5 py-1 text-lg font-medium">${item.il} ${item.mator} ${item.reng}</h4>
@@ -227,11 +223,10 @@
         }
 
         function detailCars(id) {
-            window.location.href = `http://127.0.0.1:5501/details.html?id=${id}`
+            window.location.href = `https://turbo-test-bca5.vercel.app/?id=${id}`
         }
 
         let basketArr = []
-
         function addBasket(id) {
             const obj = arr.find(item => item.id === id);
             const element = basketArr.find(item => item.id == id)
