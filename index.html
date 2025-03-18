@@ -11,6 +11,14 @@
         crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
     <link rel="stylesheet" href="./style.css">
+
+    <style>
+        .fa-heart:active,
+        .fa-heart:focus {
+            color: red;
+            /* Klikləndikdə qırmızı olsun */
+        }
+    </style>
 </head>
 
 <body class="bg-gray-200">
@@ -170,6 +178,7 @@
         const maxPrice = document.getElementById('maxPrice')
         const navB = document.getElementById('navB')
         const burgerMenu = document.getElementById('burgerMenu')
+        const favIcon = document.getElementById('favIcon')
         let count = 4
 
 
@@ -182,7 +191,10 @@
                     cards.innerHTML += `
         <div  class="card flex flex-col mb-3 bg-white rounded-lg overflow-hidden relative shadow-2xl">
             <img onclick="detailCars(${item.id})" class="w-[290px] h-[250px] object-cover" src="${item.img}" alt="car-img">
-            <i onclick="favCar(${item.id})" class="fa-solid fa-heart text-2xl text-white absolute top-[10px] right-[10px] hover:text-red-600 "></i>
+           <i id="favIcon-${item.id}" onclick="addFav(${item.id})" 
+   class="fa-solid fa-heart text-3xl text-red-400 absolute 
+          top-[10px] right-[10px] hover:text-red-800">
+</i>
             <h3 class="px-5 py-1 text-2xl font-bold">${item.qiymet} AZN</h3>
             <h3 class="px-5 py-1 text-lg font-medium">${item.marka} ${item.model}</h3>
             <h4 class="px-5 py-1 text-lg font-medium">${item.il} ${item.mator} ${item.reng}</h4>
@@ -235,6 +247,41 @@
             } else element.count += 1
             printBasket()
         }
+
+
+        function addFav(id) {
+            const favList = JSON.parse(localStorage.getItem('favList')) || []
+            const isElement = favList.some((item) => item.id == id)
+            const heartIcon = document.querySelector(`#favIcon-${id}`)
+
+            if (!isElement) {
+                const favElement = arr.find((item) => item.id == id)
+                favList.push(favElement)
+                localStorage.setItem('favList', JSON.stringify(favList))
+                heartIcon.classList.remove("text-red-400")
+                heartIcon.classList.add("text-red-800")
+            } else {
+                const newFavList = favList.filter((item) => item.id != id)
+                localStorage.setItem('favList', JSON.stringify(newFavList))
+                heartIcon.classList.remove("text-red-800")
+                heartIcon.classList.add("text-red-400")
+            }
+        }
+
+        document.addEventListener("DOMContentLoaded", function () {
+            const favList = JSON.parse(localStorage.getItem('favList')) || []
+
+            favList.forEach(item => {
+                const heartIcon = document.querySelector(`#favIcon-${item.id}`)
+                if (heartIcon) {
+                    heartIcon.classList.remove("text-red-400")
+                    heartIcon.classList.add("text-red-800")
+                }
+            })
+        })
+
+
+
 
         function handleCount(x, id) {
             const element = basketArr.find(item => item.id == id)
